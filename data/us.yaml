@@ -55,7 +55,7 @@ months:
     week: 4
     regions: [us]
     wday: 4
-  12: 
+  12:
   - name: Christmas Day
     regions: [us]
     mday: 25

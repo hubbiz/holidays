@@ -41,14 +41,28 @@ module Holidays
             {:mday => 31, :type => :informal, :name => "Halloween", :regions => [:us, :ca]}],
       11 => [{:mday => 1, :type => :informal, :name => "Todos los Santos", :regions => [:mx]},
             {:mday => 2, :type => :informal, :name => "Los Fieles Difuntos", :regions => [:mx]},
-            {:wday => 1, :week => 3, :name => "Día de la Revolución", :regions => [:mx]}],
+            {:wday => 1, :week => 3, :name => "Día de la Revolución", :regions => [:mx]},
+            {:function => lambda { |year| Holidays.black_friday(year) }, :function_id => "black_friday(year)", :type => :informal, :name => "Black Friday", :regions => [:us]}],
       12 => [{:mday => 12, :type => :informal, :name => "Día de la Virgen de Guadalupe", :regions => [:mx]},
             {:mday => 24, :type => :informal, :name => "Nochebuena", :regions => [:mx]},
             {:mday => 25, :name => "Navidad", :regions => [:mx]},
-            {:mday => 28, :name => "Los Santos Inocentes", :regions => [:mx]}]
+            {:mday => 28, :name => "Los Santos Inocentes", :regions => [:mx]}],
+      0 => [{:function => lambda { |year| Holidays.black_friday(year)+3 }, :function_id => "black_friday(year)+3", :type => :informal, :name => "Cyber Monday", :regions => [:us]}]
       }
     end
   end
+
+# The day after Thanks Giving
+def self.black_friday(year)
+  Date.civil(year,11,Date.calculate_mday(year,11,:fourth,:thursday))+1
+end
+
+
+# The next monday after Black Friday
+def self.cybermonday(year)
+  Date.civil(year,11,Date.calculate_mday(year,11,:fourth,:thursday))+4
+end
+
 
 
 end

@@ -18,7 +18,8 @@ module Holidays
 
     def self.holidays_by_month
       {
-              0 => [{:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :type => :informal, :name => "Good Friday", :regions => [:us]}],
+              0 => [{:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :type => :informal, :name => "Good Friday", :regions => [:us]},
+            {:function => lambda { |year| Holidays.black_friday(year)+3 }, :function_id => "black_friday(year)+3", :type => :informal, :name => "Cyber Monday", :regions => [:us]}],
       1 => [{:mday => 1, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "New Year's Day", :regions => [:us]},
             {:wday => 1, :week => 3, :name => "Martin Luther King, Jr. Day", :regions => [:us]},
             {:function => lambda { |year| Holidays.us_inauguration_day(year) }, :function_id => "us_inauguration_day(year)", :name => "Inauguration Day", :regions => [:us_dc]}],
@@ -32,7 +33,8 @@ module Holidays
       10 => [{:wday => 1, :week => 2, :name => "Columbus Day", :regions => [:us]},
             {:mday => 31, :type => :informal, :name => "Halloween", :regions => [:us, :ca]}],
       11 => [{:mday => 11, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Veterans Day", :regions => [:us]},
-            {:wday => 4, :week => 4, :name => "Thanksgiving", :regions => [:us]}],
+            {:wday => 4, :week => 4, :name => "Thanksgiving", :regions => [:us]},
+            {:function => lambda { |year| Holidays.black_friday(year) }, :function_id => "black_friday(year)", :type => :informal, :name => "Black Friday", :regions => [:us]}],
       12 => [{:mday => 25, :observed => lambda { |date| Holidays.to_weekday_if_weekend(date) }, :observed_id => "to_weekday_if_weekend", :name => "Christmas Day", :regions => [:us]}],
       3 => [{:mday => 17, :type => :informal, :name => "St. Patrick's Day", :regions => [:us, :ca]}],
       4 => [{:mday => 1, :type => :informal, :name => "April Fool's Day", :regions => [:us, :ca]},
@@ -44,6 +46,18 @@ module Holidays
 # January 20, every fourth year, following Presidential election
 def self.us_inauguration_day(year)
   year % 4 == 1 ? 20 : nil
+end
+
+
+# The day after Thanks Giving
+def self.black_friday(year)
+  Date.civil(year,11,Date.calculate_mday(year,11,:fourth,:thursday))+1
+end
+
+
+# The next monday after Black Friday
+def self.cybermonday(year)
+  Date.civil(year,11,Date.calculate_mday(year,11,:fourth,:thursday))+4
 end
 
 

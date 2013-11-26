@@ -19,7 +19,8 @@ module Holidays
     def self.holidays_by_month
       {
               0 => [{:function => lambda { |year| Holidays.easter(year)-2 }, :function_id => "easter(year)-2", :name => "Good Friday", :regions => [:ca]},
-            {:function => lambda { |year| Holidays.easter(year)+1 }, :function_id => "easter(year)+1", :type => :informal, :name => "Easter Monday", :regions => [:ca]}],
+            {:function => lambda { |year| Holidays.easter(year)+1 }, :function_id => "easter(year)+1", :type => :informal, :name => "Easter Monday", :regions => [:ca]},
+            {:function => lambda { |year| Holidays.black_friday(year)+3 }, :function_id => "black_friday(year)+3", :type => :informal, :name => "Cyber Monday", :regions => [:us]}],
       1 => [{:mday => 1, :name => "New Year's Day", :regions => [:ca]},
             {:mday => 2, :name => "New Year's", :regions => [:ca_qc]}],
       2 => [{:wday => 1, :week => 3, :name => "Family Day", :regions => [:ca_ab, :ca_on, :ca_sk]},
@@ -47,7 +48,8 @@ module Holidays
       9 => [{:wday => 1, :week => 1, :name => "Labour Day", :regions => [:ca]}],
       10 => [{:wday => 1, :week => 2, :name => "Thanksgiving", :regions => [:ca]},
             {:mday => 31, :type => :informal, :name => "Halloween", :regions => [:us, :ca]}],
-      11 => [{:mday => 11, :name => "Remembrance Day", :regions => [:ca]}],
+      11 => [{:mday => 11, :name => "Remembrance Day", :regions => [:ca]},
+            {:function => lambda { |year| Holidays.black_friday(year) }, :function_id => "black_friday(year)", :type => :informal, :name => "Black Friday", :regions => [:us]}],
       12 => [{:mday => 25, :name => "Christmas Day", :regions => [:ca]},
             {:mday => 26, :name => "Boxing Day", :regions => [:ca]}],
       4 => [{:mday => 1, :type => :informal, :name => "April Fool's Day", :regions => [:us, :ca]},
@@ -65,6 +67,18 @@ def self.ca_victoria_day(year)
     date -= 6
   end
   date
+end
+
+
+# The day after Thanks Giving
+def self.black_friday(year)
+  Date.civil(year,11,Date.calculate_mday(year,11,:fourth,:thursday))+1
+end
+
+
+# The next monday after Black Friday
+def self.cybermonday(year)
+  Date.civil(year,11,Date.calculate_mday(year,11,:fourth,:thursday))+4
 end
 
 
