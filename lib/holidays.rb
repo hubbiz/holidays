@@ -336,8 +336,8 @@ private
     end
 
     regions.flatten!
-    
-    require "holidays/north_america" if regions.include?(:us) # special case for north_america/US cross-linking
+
+     # if regions.include?(:us) # special case for north_america/US cross-linking
 
     raise UnknownRegionError unless regions.all? { |r| r == :any or @@regions.include?(r) or begin require "holidays/#{r.to_s}"; rescue LoadError; false; end }
     regions
@@ -484,3 +484,6 @@ class Date
     return days - ((Date.civil(year, month, days).wday - wday + 7) % 7) - (7 * (week.abs - 1))
   end
 end
+
+
+require "holidays/north_america"
